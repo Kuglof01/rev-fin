@@ -5,6 +5,16 @@ import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!url || !key) {
+    return (
+      <div className="p-4 text-center">
+        <p className="text-red-500">Supabase is not configured properly.</p>
+      </div>
+    );
+  }
   const router = useRouter();
   const [mode, setMode] = useState<'login'|'signup'>('login');
   const [email, setEmail] = useState('');
