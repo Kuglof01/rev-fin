@@ -92,6 +92,13 @@ export default function Home() {
     }
     const item={...data,id:editing?.id||crypto.randomUUID()};const next=editing?purchases.map(p=>p.id===editing.id?item:p):[item,...purchases];setPurchases(next);setEditing(null);setShowForm(false);
   };
+  const persist = (cats: unknown, s: unknown, p: unknown) => {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('categories', JSON.stringify(cats));
+    localStorage.setItem('subs', JSON.stringify(s));
+    localStorage.setItem('purchases', JSON.stringify(p));
+  }
+};
   const removePurchase=async(id:string)=>{if(!confirm('Delete this purchase?'))return;if(supabase){const {data:{user}}=await supabase.auth.getUser();if(user) await supabase.from('purchases').delete().eq('id',id).eq('user_id',user.id);}else {const next=purchases.filter(p=>p.id!==id);setPurchases(next);persist(categories,subs,next)};await load()};
   const addCategory=async()=>{if(!newCategory.trim())return;if(supabase){const {data:{user}}=await supabase.auth.getUser();if(user) await supabase.from('categories').insert({name:newCategory.trim(),user_id:user.id});}setNewCategory('');await load()};
   const addSub=async()=>{if(!newSub.trim()||!newSubCat)return;if(supabase){const {data:{user}}=await supabase.auth.getUser();if(user) await supabase.from('subcategories').insert({name:newSub.trim(),category_id:newSubCat,user_id:user.id});}setNewSub('');await load()};
