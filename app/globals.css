@@ -14,3 +14,8 @@ button, input, select { font: inherit; }
 .btn-primary:hover { background: #7189ff; }
 .btn-danger { color: #ff9d9d; }
 .muted { color: #8e9aae; }
+
+.alert { display:flex; align-items:flex-start; gap:10px; border-radius:14px; padding:12px 14px; font-size:14px; }
+.alert-error { border:1px solid #6b3138; background:#241318; color:#ffb8bf; }
+.alert-success { border:1px solid #2d5d47; background:#10251c; color:#b8f0d0; }
+.alert-link { margin-top:6px; text-decoration:underline; cursor:pointer; background:none; border:0; color:inherit; padding:0; }

@@ -1,13 +1,9 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
+import { initOpenNextCloudflareForDev } from '@opennextjs/cloudflare';
 
 const nextConfig: NextConfig = {
-  typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    ignoreBuildErrors: true,
-  },
+  typescript: { ignoreBuildErrors: true },
 };
 
 export default nextConfig;
-import('@opennextjs/cloudflare').then(m => m.initOpenNextCloudflareForDev());
+initOpenNextCloudflareForDev();

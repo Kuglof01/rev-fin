@@ -3,7 +3,9 @@
   "name": "rev-fin",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-08-15",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
@@ -13,6 +15,6 @@
   },
   "vars": {
     "NEXT_PUBLIC_SUPABASE_URL": "https://injdymledbrolsvtphok.supabase.co",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_oDXZ73o2aA_ZYE6mVhiDCA_Cv_T5lAk"
+    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_oDXZ73o2aA_ZYE6mVhiDCA_Cv_T5lAk"
   }
 }

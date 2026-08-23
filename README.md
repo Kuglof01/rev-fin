@@ -1,24 +1,28 @@
 # Spendly
 
-A multi-user spending tracker built with Next.js, Supabase Auth/Postgres, Tailwind CSS and Recharts.
+Multi-user spending tracker with Next.js, Supabase Auth/Postgres, Tailwind and Recharts.
 
-## Features
-- Email/password account creation and login
-- Per-user purchases, categories and subcategories
-- Supabase Row Level Security: users can only read/write their own data
-- Automatic cross-device synchronization
-- Pie and bar charts with category -> subcategory drill-down
-- Date filters, editing and deleting
+## Important fixes
+- Cloudflare/OpenNext build recursion fixed: `package.json` `build` is now only `next build`.
+- Cloudflare Workers Builds should use `npx @opennextjs/cloudflare build`.
+- Supabase browser configuration is available during the Next.js build; the project uses public publishable/anon credentials and RLS for security.
+- Category/subcategory/purchase CRUD now reports every Supabase error instead of silently swallowing it.
+- Dashboard loading reports missing tables, RLS failures and other database errors with a Retry button.
+- New users get default categories/subcategories. Existing accounts with no categories are repaired by the SQL migration.
+- Database triggers prevent cross-user category/subcategory relationships.
+- Category deletion correctly reports the foreign-key error when purchases still use it.
+- Subcategory deletion is supported. Existing purchases keep their category and simply lose that subcategory.
 
-## Supabase setup
-1. Create a free Supabase project.
-2. In SQL Editor, run `supabase/schema.sql`.
-3. In Authentication -> Providers, enable Email.
-4. For easiest testing, disable email confirmation; for a public app, configure email confirmation/SMTP as desired.
-5. Copy `.env.example` to `.env.local` and add the project URL and anon/publishable key.
-6. Run `npm install` and `npm run dev`.
+## Supabase
+Run all of `supabase/schema.sql` in Supabase SQL Editor. It is designed to be rerunnable. Enable Email under Authentication -> Providers.
 
-Supabase's current Free plan includes Postgres, Auth, 500 MB database storage and up to 50,000 monthly active users. Free projects may pause after 1 week of inactivity.
+## Cloudflare
+This is a Next.js Worker using OpenNext, not a static Pages export. In Workers Builds use:
 
-## Free hosting/domain
-Deploy the Next.js app to Cloudflare Pages/Workers or another free host. A free `*.pages.dev` project address can be used without buying a domain. A custom `.com`/`.hu` domain is normally not free.
+- Build command: `npx @opennextjs/cloudflare build`
+- Deploy command: `npx @opennextjs/cloudflare deploy`
+- Production branch: `main`
+
+Cloudflare's current Next.js/OpenNext docs require build variables for `NEXT_PUBLIC_*` values because Next.js inlines them during the build. The project includes `.env.production` with the configured public Supabase values; you can instead configure the same variables in Cloudflare Build Variables and secrets.
+
+Never add a Supabase `service_role`/secret key to the browser project.
